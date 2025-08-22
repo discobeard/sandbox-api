@@ -1,6 +1,5 @@
 import { APIGatewayProxyEvent } from 'aws-lambda';
 
-
 export const handler = async (event: APIGatewayProxyEvent) => {
     const response: string = 'The quick brown fox jumps over the lazy dog';
     return {

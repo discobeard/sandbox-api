@@ -1,20 +1,33 @@
 import * as cdk from 'aws-cdk-lib';
-import { Construct } from 'constructs';
+import * as lambda from 'aws-cdk-lib/aws-lambda';
+import * as apiGateway from 'aws-cdk-lib/aws-apigateway';
+import {Construct} from 'constructs';
 import {NodejsFunction} from "aws-cdk-lib/aws-lambda-nodejs";
+
 // import * as sqs from 'aws-cdk-lib/aws-sqs';
 
 export class SandboxApiStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
-    super(scope, id, props);
+    constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+        super(scope, id, props);
 
-    // The code that defines your stack goes here
+        // The code that defines your stack goes here
+        const apiGw = new apiGateway.RestApi(this, 'SandboxApi', {
+            restApiName: 'Sanbox Api'
+        })
 
-    const helloWorldLambda = new NodejsFunction(this, 'helloWorldLambda',{
+        const helloWorldLambda = new NodejsFunction(this, 'helloWorldLambda', {
+            entry: 'lambdas/hello-world.ts',
+            handler: 'handler',
+            runtime: lambda.Runtime.NODEJS_22_X,
+            environment: {
+                hello_world: "The cat stalks the mouse"
+            },
+            memorySize: 128,
+            timeout: cdk.Duration.seconds(5),
+        });
 
-    });
-    // example resource
-    // const queue = new sqs.Queue(this, 'SandboxApiQueue', {
-    //   visibilityTimeout: cdk.Duration.seconds(300)
-    // });
-  }
+        const helloWorldRoute = apiGw.root.addResource('hello');
+        helloWorldRoute.addMethod('GET', new apiGateway.LambdaIntegration(helloWorldLambda));
+
+    }
 }
