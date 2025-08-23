@@ -20,12 +20,13 @@ export class SandboxApiStack extends cdk.Stack {
             handler: 'handler',
             runtime: lambda.Runtime.NODEJS_22_X,
             environment: {
-                hello_world: "The cat stalks the mouse"
+                HELLO_WORLD: "The cat stalks the mouse"
             },
             memorySize: 128,
             timeout: cdk.Duration.seconds(5),
         });
 
+        // Hello world lambda
         const helloWorldRoute = apiGw.root.addResource('hello');
         helloWorldRoute.addMethod('GET', new apiGateway.LambdaIntegration(helloWorldLambda));
 
