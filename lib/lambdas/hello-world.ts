@@ -1,13 +1,12 @@
-import { APIGatewayProxyEvent } from 'aws-lambda';
 
-const environmentVariable = process.env.HELLO_WORLD || '';
 
-export const handler = async (event: APIGatewayProxyEvent) => {
+export const handler = async () => {
         const response: string = 'The quick brown fox jumps over the lazy dog';
-    return {
-        statusCode: 200,
-        body: {
-            message: `Hello world - ${response} ${environmentVariable}`,
-        }
-    }
+        console.log('Hello cloud watch!')
+        return {
+            statusCode: 200,
+            body: JSON.stringify({
+                message: `Hello world - ${response} ${process.env.HELLO_WORLD || ''}`,
+            }),
+        };
 }

@@ -7,6 +7,9 @@ import {NodejsFunction} from "aws-cdk-lib/aws-lambda-nodejs";
 // import * as sqs from 'aws-cdk-lib/aws-sqs';
 
 export class SandboxApiStack extends cdk.Stack {
+    // Declare lambda functions to be created here.
+    public readonly helloWorldLambda: NodejsFunction;
+
     constructor(scope: Construct, id: string, props?: cdk.StackProps) {
         super(scope, id, props);
 
@@ -15,8 +18,9 @@ export class SandboxApiStack extends cdk.Stack {
             restApiName: 'Sanbox Api'
         })
 
-        const helloWorldLambda = new NodejsFunction(this, 'helloWorldLambda', {
-            entry: 'lambdas/hello-world.ts',
+        // Create nodejsfunctions  to be assigned to the lambbdas here
+        this.helloWorldLambda = new NodejsFunction(this, 'helloWorldLambda', {
+            entry: 'lib/lambdas/hello-world.ts',
             handler: 'handler',
             runtime: lambda.Runtime.NODEJS_22_X,
             environment: {
@@ -26,7 +30,9 @@ export class SandboxApiStack extends cdk.Stack {
             timeout: cdk.Duration.seconds(5),
         });
 
-        // Hello world lambda
+        // create routes here and assign lambda functions to them.
+
+        // Hello world lambda - route
         const helloWorldRoute = apiGw.root.addResource('hello');
         helloWorldRoute.addMethod('GET', new apiGateway.LambdaIntegration(helloWorldLambda));
 
