@@ -8,6 +8,16 @@ export const nullParameterResponse = (message?: string) => {
     };
 }
 
+export const invalidParameterResponse = (message?: string) => {
+    return {
+        statusCode: 403,
+        body: JSON.stringify({
+            message: message || 'Parameter did not match requirements.'
+        }),
+    };
+}
+}
+
 export const buildJsonResponse = (response: unknown) => {
     return {
         statusCode: 200,

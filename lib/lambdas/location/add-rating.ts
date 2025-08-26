@@ -1,5 +1,5 @@
-import {APIGatewayProxyEvent, APIGatewayProxyResult} from "aws-lambda";
-import {buildJsonResponse, nullParameterResponse} from "../../utils/response-utils";
+import {APIGatewayProxyEvent} from "aws-lambda";
+import {buildJsonResponse, invalidParameterResponse, nullParameterResponse} from "../../utils/response-utils";
 
 interface AddRatingRequest {
     restaurantId: string;
@@ -13,17 +13,23 @@ export const handler = async (event: APIGatewayProxyEvent) => {
     if (!event.body){
         return nullParameterResponse();
     }
-    const body = event.body() as AddRatingRequest;
-    if (!body.restaurantId) {
+    const { restaurantId, rating, restaurantName } = JSON.parse(event.body) as AddRatingRequest;
+    if (!restaurantId) {
         return nullParameterResponse('Restaurant ID is required');
     }
 
-    if (!body.restaurantName) {
+    if (!restaurantName) {
         return nullParameterResponse('Restaurant Name is required');
     }
-    if(!body.restaurantName) {
+    if(!rating) {
         return nullParameterResponse('Rating is required');
     }
+
+    if(rating < 0 || rating > 5) {
+        return invalidParameterResponse("Rating must be between 0 and 5");
+    }
+
+    // TODO: dynamodb utils to
 
     return buildJsonResponse({ message: 'PENDING' })
 };
