@@ -16,7 +16,6 @@ export const invalidParameterResponse = (message?: string) => {
         }),
     };
 }
-}
 
 export const buildJsonResponse = (response: unknown) => {
     return {
