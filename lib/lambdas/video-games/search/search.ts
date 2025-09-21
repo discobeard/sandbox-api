@@ -13,7 +13,8 @@ export const handler = (event: APIGatewayProxyEvent) => {
   if (!event.body) {
     return nullParameterResponse('Request must include body');
   }
-  const { title } = JSON.parse(event.body) as VideoGameSearchRequest;
+  const body = event.body;
+  const { title } = body as unknown as VideoGameSearchRequest;
 
   const response = RawgService.videoGameSearch(title);
 
