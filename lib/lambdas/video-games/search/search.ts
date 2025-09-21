@@ -14,6 +14,7 @@ export const handler = async (event: APIGatewayProxyEvent) => {
     return nullParameterResponse('Request must include body');
   }
   const body = event.body;
+  console.log('Event', { event });
   const { title } = body as unknown as VideoGameSearchRequest;
 
   const response = await RawgService.videoGameSearch(title);
