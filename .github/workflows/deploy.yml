@@ -1,7 +1,17 @@
 name: Deploy
 
 on:
-  workflow_dispatch: # Allows manual triggering from GitHub UI
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to deploy from'
+        required: true
+        default: 'main'
+        type: choice
+        options:
+          - main
+          - develop
+          # Add more branches as needed
 
 jobs:
   deploy:
@@ -11,6 +21,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch }}
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
