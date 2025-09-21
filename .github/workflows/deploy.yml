@@ -39,4 +39,5 @@ jobs:
       - name: Deploy CDK stack
         env:
           MY_TEST_SECRET: ${{ secrets.MY_TEST_SECRET }}
+          RAWG_API_KEY: ${{secrets.RAWG_API_KEY}}
         run: npx cdk deploy --require-approval never
