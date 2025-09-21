@@ -19,4 +19,4 @@ jobs:
       - name: Run tests
         run: npm test
       - name: Output Build Number
-        run: echo "Build Number: $GITHUB_RUN_NUMBER"
+        run: echo "Build Number: ${{ github.run_number }}"
