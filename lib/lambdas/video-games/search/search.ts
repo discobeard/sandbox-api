@@ -15,7 +15,7 @@ export const handler = async (event: APIGatewayProxyEvent) => {
   }
   const body = event.body;
   console.log('Event', { event });
-  const { title } = body as unknown as VideoGameSearchRequest;
+  const { title } = JSON.parse(body) as unknown as VideoGameSearchRequest;
   console.log(`Searching for video game: ${title}`);
   const response = await RawgService.videoGameSearch(title);
 
