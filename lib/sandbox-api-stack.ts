@@ -83,7 +83,7 @@ export class SandboxApiStack extends cdk.Stack {
     const videoGameRoute = apiGw.root.addResource('video-games');
     const searchRoute = videoGameRoute.addResource('search');
     searchRoute.addMethod(
-      'GET',
+      'POST',
       new apiGateway.LambdaIntegration(this.videoGameSearchLambda)
     );
   }
