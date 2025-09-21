@@ -19,8 +19,6 @@ export const handler = async (event: APIGatewayProxyEvent) => {
 
   const response = await RawgService.videoGameSearch(title);
 
-  console.log(response);
-
   // TODO: Add RAWG service that will handle api requests.
   return buildJsonResponse(response);
 };
